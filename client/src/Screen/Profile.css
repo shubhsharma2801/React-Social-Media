@@ -1,0 +1,15 @@
+.profile {
+    margin: 2% 27%;
+}
+.ui.grid>.row>.column {
+    width: auto;
+}
+h2.ui.username{
+    padding: 50%;
+}
+span {
+    font-size: large;
+}
+.profile_content {
+    margin-left: 10%;
+}

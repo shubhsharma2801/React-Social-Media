@@ -1,0 +1,40 @@
+.navbar {
+  background-color: #fafafa;
+  font-size: 2rem;
+  border-bottom: 1px solid #dbdbdb;
+}
+
+nav ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: auto;
+  margin-left: 13%;
+  margin-right: 13%;
+}
+
+nav ul li {
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+.icon-group {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+i.small.icon {
+  padding-left: 25%;
+  padding-right: 25%;
+}
+.ui.input.post_description {
+  width: 100%;
+}
+
+.ui.tiny.image {
+  width: 2em;
+  height: auto;
+  font-size: 0.85714286rem;
+}
