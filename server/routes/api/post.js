@@ -7,6 +7,8 @@ const router = require("express").Router();
 const auth = require("../auth");
 
 const Post = mongoose.model("Post");
+const dataReadWriteUtil = require("../../util/dataReadWriteUtil");
+
 const storage = multer.diskStorage({
   destination: "./public",
   filename: (req, file, cb) => {
@@ -17,19 +19,6 @@ const upload = multer({
   storage,
 }).single("postImage");
 
-const fetchImagePromisified = (post) => new Promise((resolve, reject) => {
-  fs.readFile(
-    `${post.image.destination}/${post.image.filename}`,
-    (err, data) => {
-      console.log(err);
-      if (err) return reject(err);
-      const resultPost = { ...post };
-      const str = data.toString("base64");
-      resultPost.imageData = str;
-      return resolve(resultPost);
-    }
-  );
-});
 router.post("/upload", auth.required, (req, res) => {
   upload(req, res, () => {
     const post = new Post();
@@ -53,7 +42,7 @@ router.post("/fetchPost", auth.required, (req, res) => {
     .sort({ _id: -1 })
     .lean()
     .then((posts) => {
-      const promiseArray = posts.map((post) => fetchImagePromisified(post));
+      const promiseArray = posts.map((post) => dataReadWriteUtil.fetchDocumentImagePromisified(post, "image"));
       return Promise.all(promiseArray);
     })
     .then((result) => res.send(result))

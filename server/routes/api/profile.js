@@ -6,6 +6,8 @@ const router = require("express").Router();
 const auth = require("../auth");
 
 const Users = mongoose.model("Users");
+const dataReadWriteUtil = require("../../util/dataReadWriteUtil");
+
 const storage = multer.diskStorage({
   destination: "./public/profilePicture",
   filename: (req, file, cb) => {
@@ -22,7 +24,7 @@ router.post("/uploadProfilePic", auth.required, (req, res) => {
     const { userId } = req.body;
     Users.findByIdAndUpdate(
       userId,
-      { profilePic: req.file },
+      { profilePicture: req.file },
       { new: true },
       (err, result) => {
         if (err) {
@@ -35,4 +37,31 @@ router.post("/uploadProfilePic", auth.required, (req, res) => {
   });
 });
 
+router.post("/fetchProfile", auth.required, (req, res) => {
+  const profile = {};
+  const { author } = req.body;
+  const query = {
+    author,
+  };
+  dataReadWriteUtil
+    .fetchPostByQuery(query)
+    .then((posts) => {
+      const promiseArray = posts.map((post) => dataReadWriteUtil.fetchDocumentImagePromisified(post, "image"));
+      return Promise.all(promiseArray);
+    })
+    .then((result) => {
+      Users.findById(author)
+        .lean()
+        .then((user) => {
+          dataReadWriteUtil
+            .fetchDocumentImagePromisified(user, "profilePicture")
+            .then((user) => {
+              profile.user = user;
+              profile.posts = result;
+              res.send(profile);
+            });
+        });
+    })
+    .catch((err) => res.send({ message: `Error while fecthing post ${JSON.stringify(err)}` }));
+});
 module.exports = router;

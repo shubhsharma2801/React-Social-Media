@@ -22,6 +22,8 @@ const UserSchema = new mongoose.Schema(
       type: Date,
       default: Date.now,
     },
+    follower: { type: Array, default: [] },
+    following: { type: Array, default: [] },
   },
   { strict: false }
 );
