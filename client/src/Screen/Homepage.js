@@ -10,6 +10,7 @@ export default class Homepage extends Component {
     super(props);
     this.showMessage = this.showMessage.bind(this);
     this.post = React.createRef();
+    this.profile = React.createRef();
     this.refreshPost = this.refreshPost.bind(this);
     this.state = {
       userId: "",
@@ -20,7 +21,12 @@ export default class Homepage extends Component {
     console.log(this.props.match);
   }
   refreshPost() {
-    this.post.current.getPost();
+    if (this.post.current) {
+      this.post.current.getPost();
+    }
+    if (this.profile.current){
+      this.profile.current.getProfile();
+    }
   }
   showMessage(context) {
     showMessage(context);
@@ -39,7 +45,7 @@ export default class Homepage extends Component {
           <Route path="/homepage/message" render={() => <Message />} />
           <Route
             path="/homepage/profile"
-            render={() => <Profile userID={this.state.userId} />}
+            render={() => <Profile ref={this.profile} userID={this.state.userId} />}
           />
           <Route
             path="/homepage/:userid"

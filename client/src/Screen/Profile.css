@@ -1,15 +1,36 @@
 .profile {
-    margin: 2% 27%;
+  margin: 2% 24%;
+  width: 60%;
 }
-.ui.grid>.row>.column {
-    width: auto;
+.ui.grid > .row > .column {
+  width: auto;
 }
-h2.ui.username{
-    padding: 50%;
+h2.ui.username {
+  padding: 50%;
 }
 span {
-    font-size: large;
+  font-size: large;
 }
 .profile_content {
-    margin-left: 10%;
+  margin-left: 10%;
+}
+.ui.grid {
+  
+}
+.ui.secondary.pointing.menu {
+  margin-left: 28%;
+  border-bottom: 0;
+}
+.ui.segment {
+  position: relative;
+  background: #fff;
+  box-shadow: none;
+  margin: 1rem 0;
+  padding: 1em 1em;
+  border-radius: 0;
+  border: 0;
+}
+.ui.grid>.row>.column>img{
+  height: 293px;
+  width: 400px;
 }

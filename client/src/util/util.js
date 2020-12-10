@@ -8,6 +8,7 @@ export const loginapi = "/api/users/login";
 export const postUploadApi = "/api/post/upload";
 export const postfetchApi = "/api/post/fetchPost";
 export const profilePicUploadApi = "/api/profile/uploadProfilePic";
+export const profileFetchApi = "/api/profile/fetchProfile";
 export const ClientID =
   "15089775636-b32piqktdtehsat7bpeish4bl4vjanvc.apps.googleusercontent.com";
 export const Client_Secret = "E3ojZ955lH1KFQT8zChwj86i";
@@ -58,20 +59,27 @@ export const showMessage = (context) => {
 export const saveSessionInLocalStorage = (token) => {
   ls.set("token", token);
 };
-
+export const saveInLocalStorage = (key,value) => {
+  ls.set(key, value);
+};
+export const getFromLocalStorage = (key) => {
+  return ls.get(key);
+};
 export const resizeFile = (file) =>
   new Promise((resolve, reject) => {
     Resizer.imageFileResizer(
       file,
-      300,
-      300,
+      200,
+      200,
       "JPEG",
       100,
       0,
       (uri) => {
         resolve(uri);
       },
-      "blob"
+      "blob",
+      200,
+      200
     );
   });
 export const APP_NAME = "ReactGram";

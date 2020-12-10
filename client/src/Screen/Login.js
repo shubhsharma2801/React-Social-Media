@@ -8,6 +8,7 @@ import {
   loginapi,
   showMessage,
   saveSessionInLocalStorage,
+  saveInLocalStorage,
 } from "../util/util";
 
 export default class Login extends Component {
@@ -47,6 +48,7 @@ export default class Login extends Component {
         } else {
           const { token, _id } = data.user;
           saveSessionInLocalStorage(token);
+          saveInLocalStorage("userId", _id);
           this.props.history.push(`/homepage/${_id}`);
         }
       })

@@ -18,6 +18,7 @@ import {
   makeHttpPostCallout,
   postUploadApi,
   makeHttpPostCalloutForFormData,
+  getFromLocalStorage
 } from "../util/util";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 export default class HomePageHeader extends Component {
@@ -65,14 +66,14 @@ export default class HomePageHeader extends Component {
     const formData = new FormData();
     formData.append("postImage", this.state.file);
     formData.append("postDescription", this.state.imageDescription);
-    formData.append("userID", this.props.userID);
+    formData.append("userID", getFromLocalStorage("userId"));
     makeHttpPostCalloutForFormData(postUploadApi, formData)
       .then((res) => {
         this.props.refreshPost();
         this.setOpen(false);
       })
       .catch((err) => {
-        console.err(err);
+        console.log(err);
         let context = {};
         context.id = "homepage_message";
         context.props = { negative: true };
@@ -143,7 +144,7 @@ export default class HomePageHeader extends Component {
               </li>
               <li>
                 <div className="icon-group">
-                  <Link to={`/homepage/${this.props.userID}`}>
+                  <Link to={`/homepage/${getFromLocalStorage("userId")}`}>
                     <Home />
                   </Link>
                   &nbsp; &nbsp;
