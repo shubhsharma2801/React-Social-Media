@@ -18,9 +18,10 @@ import {
   makeHttpPostCallout,
   postUploadApi,
   makeHttpPostCalloutForFormData,
-  getFromLocalStorage
+  getFromLocalStorage,
 } from "../util/util";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import SearchComponent from "./SearchComponent";
 export default class HomePageHeader extends Component {
   constructor(props) {
     super(props);
@@ -135,17 +136,12 @@ export default class HomePageHeader extends Component {
                 </Header>
               </li>
               <li>
-                <Input
-                  size="mini"
-                  style={{ fontSize: "12px" }}
-                  icon="search"
-                  placeholder="Search..."
-                />
+                <SearchComponent />
               </li>
               <li>
                 <div className="icon-group">
                   <Link to={`/homepage/${getFromLocalStorage("userId")}`}>
-                    <Home />
+                    <Home style={{ cursor: "pointer" }} />
                   </Link>
                   &nbsp; &nbsp;
                   <Link to="/homepage/message">
