@@ -13,17 +13,23 @@ const fetchPostByQuery = (query) => new Promise((resolve, reject) => {
 });
 
 const fetchDocumentImagePromisified = (document, imageField) => new Promise((resolve, reject) => {
-  fs.readFile(
-    `${document[imageField].destination}/${document[imageField].filename}`,
-    (err, data) => {
-      console.log(err);
-      if (err) return reject(err);
-      const resultDocument = { ...document };
-      const str = data.toString("base64");
-      resultDocument.imageData = str;
-      return resolve(resultDocument);
-    }
-  );
+  if (document[imageField]) {
+    fs.readFile(
+      `${document[imageField].destination}/${document[imageField].filename}`,
+      (err, data) => {
+        console.log(data);
+        if (err) {
+          return reject(err);
+        }
+        const resultDocument = { ...document };
+        const str = data.toString("base64");
+        resultDocument.imageData = str;
+        return resolve(resultDocument);
+      }
+    );
+  } else {
+    return resolve(document);
+  }
 });
 
 module.exports = {

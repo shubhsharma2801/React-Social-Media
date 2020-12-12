@@ -30,7 +30,7 @@ span {
   border-radius: 0;
   border: 0;
 }
-.ui.grid>.row>.column>img{
+.ui.grid>.row>.profileImages>img{
   height: 293px;
   width: 400px;
 }

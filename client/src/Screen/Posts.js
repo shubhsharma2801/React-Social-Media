@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { makeHttpPostCallout, postfetchApi } from "../util/util";
+import { makeHttpPostCallout } from "../util/util";
+import { postfetchApi } from "../util/Constant";
 import Post from "./Post";
 import ReactDOM from "react-dom";
 export default class Posts extends Component {
@@ -12,9 +13,12 @@ export default class Posts extends Component {
   }
   componentDidMount() {
     this.getPost();
-    ReactDOM.findDOMNode(this).addEventListener('post-refresh', this.handleRefresh);
+    ReactDOM.findDOMNode(this).addEventListener(
+      "post-refresh",
+      this.handleRefresh
+    );
   }
-  handleRefresh(){
+  handleRefresh() {
     this.getPost();
   }
   getPost() {
@@ -31,7 +35,7 @@ export default class Posts extends Component {
   }
   render() {
     return (
-      <div >
+      <div>
         {this.state.posts.length > 0 ? (
           <div>
             {this.state.posts.map((post) => (

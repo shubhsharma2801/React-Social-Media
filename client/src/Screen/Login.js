@@ -5,12 +5,11 @@ import { Grid, Image, Form, Button, Header, Divider } from "semantic-ui-react";
 import "./Login.css";
 import {
   makeHttpPostCallout,
-  loginapi,
   showMessage,
   saveSessionInLocalStorage,
   saveInLocalStorage,
 } from "../util/util";
-
+import { loginapi } from "../util/Constant";
 export default class Login extends Component {
   constructor(props) {
     super(props);

@@ -3,16 +3,7 @@ import ReactDOM from "react-dom";
 import ls from "local-storage";
 import { Message } from "semantic-ui-react";
 import Resizer from "react-image-file-resizer";
-export const ENDPOINT = "http://localhost:5000";
-export const loginapi = "/api/users/login";
-export const postUploadApi = "/api/post/upload";
-export const postfetchApi = "/api/post/fetchPost";
-export const profilePicUploadApi = "/api/profile/uploadProfilePic";
-export const profileFetchApi = "/api/profile/fetchProfile";
-export const ClientID =
-  "15089775636-b32piqktdtehsat7bpeish4bl4vjanvc.apps.googleusercontent.com";
-export const Client_Secret = "E3ojZ955lH1KFQT8zChwj86i";
-
+import { ENDPOINT } from "./Constant";
 const getMessageComponent = (props, message) => (
   <Message {...props}>{message}</Message>
 );
@@ -59,7 +50,7 @@ export const showMessage = (context) => {
 export const saveSessionInLocalStorage = (token) => {
   ls.set("token", token);
 };
-export const saveInLocalStorage = (key,value) => {
+export const saveInLocalStorage = (key, value) => {
   ls.set(key, value);
 };
 export const getFromLocalStorage = (key) => {

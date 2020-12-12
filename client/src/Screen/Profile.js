@@ -3,14 +3,13 @@ import "./Profile.css";
 import { Grid, Header, Image, Button } from "semantic-ui-react";
 import {
   resizeFile,
-  profilePicUploadApi,
   makeHttpPostCalloutForFormData,
   makeHttpPostCallout,
-  profileFetchApi,
   getFromLocalStorage,
 } from "../util/util";
+import { profilePicUploadApi, profileFetchApi } from "../util/Constant";
 import { Tab } from "semantic-ui-react";
-
+import { withRouter } from "react-router";
 const getPostGrouping = (posts) => {
   var groupArr = [];
   for (let i = 0; i < posts.length; i += 3) {
@@ -20,7 +19,7 @@ const getPostGrouping = (posts) => {
 };
 /*var */
 
-export default class extends Component {
+class Profile extends Component {
   constructor(props) {
     super(props);
     this.handleFileChange = this.handleFileChange.bind(this);
@@ -30,6 +29,7 @@ export default class extends Component {
       profile: null,
       fallbackPicture:
         "https://react.semantic-ui.com/images/wireframe/square-image.png",
+      userId: "",
     };
     this.panes = [
       {
@@ -50,10 +50,25 @@ export default class extends Component {
       },
     ];
     this.getPostImage = this.getPostImage.bind(this);
+    this.getUserIdFromUrl = this.getUserIdFromUrl.bind(this);
   }
-
+  getUserIdFromUrl() {
+    let search = window.location.search;
+    let params = new URLSearchParams(search);
+    return params.get("userId");
+  }
+  componentDidUpdate(prevProps) {}
   componentDidMount() {
-    this.getProfile();
+    this.props.history.listen((location, action) => {
+      let userId = this.getUserIdFromUrl();
+      this.setState({ userId: userId }, () => {
+        this.getProfile();
+      });
+    });
+    let userId = this.getUserIdFromUrl();
+    this.setState({ userId: userId }, () => {
+      this.getProfile();
+    });
   }
   getPostImage = () => {
     if (this.state.profile && this.state.profile.posts) {
@@ -62,7 +77,7 @@ export default class extends Component {
         return (
           <Grid.Row>
             {group.map((post) => (
-              <Grid.Column>
+              <Grid.Column className="profileImages">
                 <Image src={`data:image/png;base64,${post.imageData}`} />
               </Grid.Column>
             ))}
@@ -74,9 +89,16 @@ export default class extends Component {
     }
   };
   getProfile() {
+    console.log(this.state.userId);
+    console.log(
+      this.state.userId ? this.state.userId : getFromLocalStorage("userId")
+    );
     var body = {
-      author: getFromLocalStorage("userId"),
+      author: this.state.userId
+        ? this.state.userId
+        : getFromLocalStorage("userId"),
     };
+
     makeHttpPostCallout(profileFetchApi, body).then((profile) => {
       this.setState({
         profile,
@@ -171,3 +193,5 @@ export default class extends Component {
     );
   }
 }
+
+export default withRouter(Profile);

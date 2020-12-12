@@ -16,10 +16,10 @@ import { ReactComponent as Home } from "../home.svg";
 import { ReactComponent as Message } from "../directMessage.svg";
 import {
   makeHttpPostCallout,
-  postUploadApi,
   makeHttpPostCalloutForFormData,
   getFromLocalStorage,
 } from "../util/util";
+import { postUploadApi } from "../util/Constant";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import SearchComponent from "./SearchComponent";
 export default class HomePageHeader extends Component {
