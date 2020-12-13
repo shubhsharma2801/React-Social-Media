@@ -24,10 +24,12 @@
     "morgan": "^1.10.0",
     "multer": "^1.4.2",
     "passport": "^0.4.1",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "redis": "^3.0.2"
   },
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "debug": "nodemon --inspect server.js"
   },
   "author": "",
   "description": ""

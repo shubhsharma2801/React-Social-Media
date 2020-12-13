@@ -75,3 +75,5 @@ export const resizeFile = (file) =>
   });
 export const APP_NAME = "ReactGram";
 export const fetchSessionInLocalStorage = () => ls.get("token");
+export const isLoggedInUser = (userId) =>
+  userId === getFromLocalStorage("userId");

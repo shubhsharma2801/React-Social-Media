@@ -6,6 +6,7 @@ import {
   makeHttpPostCalloutForFormData,
   makeHttpPostCallout,
   getFromLocalStorage,
+  isLoggedInUser,
 } from "../util/util";
 import { profilePicUploadApi, profileFetchApi } from "../util/Constant";
 import { Tab } from "semantic-ui-react";
@@ -133,7 +134,9 @@ class Profile extends Component {
                   onChange={this.handleFileChange}
                   ref={(input) => (this.inputElement = input)}
                 />
-                {this.state.profile && this.state.profile.user ? (
+                {this.state.profile &&
+                this.state.profile.user &&
+                this.state.profile.user.imageData ? (
                   <Image
                     src={`data:image/png;base64,${this.state.profile.user.imageData}`}
                     avatar
@@ -141,7 +144,11 @@ class Profile extends Component {
                     size="small"
                   />
                 ) : (
-                  <Image src={this.state.profile} avatar size="small" />
+                  <Image
+                    src="https://react.semantic-ui.com/images/wireframe/square-image.png"
+                    avatar
+                    size="small"
+                  />
                 )}
               </div>
             </Grid.Column>
@@ -157,7 +164,15 @@ class Profile extends Component {
                       </h2>
                     </Grid.Column>
                     <Grid.Column>
-                      <Button>Edit Profile</Button>
+                      {this.state.profile && this.state.profile.user ? (
+                        isLoggedInUser(this.state.profile.user._id) ? (
+                          <Button>Edit Profile</Button>
+                        ) : (
+                          <Button>Follow</Button>
+                        )
+                      ) : (
+                        ""
+                      )}
                     </Grid.Column>
                   </Grid.Row>
                   <Grid.Row>

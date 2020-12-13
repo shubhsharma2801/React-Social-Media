@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const fs = require("fs");
+const { rejects } = require("assert");
 
 const Post = mongoose.model("Post");
 
@@ -30,6 +31,7 @@ const fetchDocumentImagePromisified = (document, imageField) => new Promise((res
   } else {
     return resolve(document);
   }
+  return rejects();
 });
 
 module.exports = {
