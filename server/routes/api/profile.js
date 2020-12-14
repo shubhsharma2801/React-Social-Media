@@ -8,6 +8,8 @@ const auth = require("../auth");
 const Users = mongoose.model("Users");
 const Follower = mongoose.model("Follower");
 const dataReadWriteUtil = require("../../util/dataReadWriteUtil");
+const { required } = require("../auth");
+const { followerGraph } = require("../../init");
 
 const storage = multer.diskStorage({
   destination: "./public/profilePicture",
@@ -68,9 +70,17 @@ router.post("/fetchProfile", auth.required, (req, res) => {
 
 router.post("/addFollower", auth.optional, (req, res) => {
   const { follower, following } = req.body;
+  followerGraph.addEdge(follower, following);
   const followDoc = new Follower();
   followDoc.follower = follower;
   followDoc.following = following;
   followDoc.save().then(() => res.send({ message: "Data saved successfully" }));
+});
+
+router.post("/fetchFollowerCount", auth.optional, (req, res) => {
+  const { userId } = req.body;
+  // console.log(followerGraph);
+  const context = followerGraph.findFollowerFollowing(userId);
+  res.send(context);
 });
 module.exports = router;

@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 const Graph = require("./data/graph");
 
+const followerGraph = new Graph();
 const Follower = mongoose.model("Follower");
 const createGraphOfAllUser = () => {
-  const followerGraph = new Graph();
   const stream = Follower.find().stream();
   stream.on("data", (doc) => {
     stream.pause();
@@ -12,10 +12,10 @@ const createGraphOfAllUser = () => {
   });
   stream.on("close", () => {
     console.log(followerGraph);
-    return followerGraph;
   });
 };
 
 module.exports = {
   createGraphOfAllUser,
+  followerGraph
 };

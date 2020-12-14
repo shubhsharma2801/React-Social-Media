@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-syntax */
 class Graph {
   constructor() {
     this.nodes = {};
@@ -23,6 +24,22 @@ class Graph {
     this.nodes[source] = this.nodes[source].filter(
       (vertex) => vertex !== destination
     );
+  }
+
+  findFollowerFollowing(source) {
+    const context = {};
+    context.follower = [];
+    context.following = [];
+    if (this.nodes[source]) {
+      context.following = this.nodes[source];
+    }
+    console.log('0000000',this.nodes);
+    for (const [key, value] of Object.entries(this.nodes)) {
+      if (value.includes(source)) {
+        context.follower.push(key);
+      }
+    }
+    return context;
   }
 }
 module.exports = Graph;

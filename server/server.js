@@ -16,6 +16,7 @@ mongoose
   .connect(MONGO_URI, { useNewUrlParser: true })
   .then(() => {
     console.log("MongoDB connected");
+    // eslint-disable-next-line global-require
     const init = require("./init");
     init.createGraphOfAllUser();
   })
