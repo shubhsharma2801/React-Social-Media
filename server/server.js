@@ -14,7 +14,11 @@ const MONGO_URI = "mongodb://localhost:27017/social_network";
 
 mongoose
   .connect(MONGO_URI, { useNewUrlParser: true })
-  .then(() => console.log("MongoDB connected"))
+  .then(() => {
+    console.log("MongoDB connected");
+    const init = require("./init");
+    init.createGraphOfAllUser();
+  })
   .catch((err) => console.log(err));
 
 app.use(cors());
@@ -38,8 +42,9 @@ app.use(
 );
 require("./models/Users");
 require("./models/Post");
+require("./models/Follower");
 require("./passport/setup");
 
 app.use(require("./routes"));
 
-app.listen(port, () => console.log("running"));
+app.listen(port, () => console.log("Server started"));

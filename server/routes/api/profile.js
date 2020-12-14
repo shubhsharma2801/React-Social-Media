@@ -6,6 +6,7 @@ const router = require("express").Router();
 const auth = require("../auth");
 
 const Users = mongoose.model("Users");
+const Follower = mongoose.model("Follower");
 const dataReadWriteUtil = require("../../util/dataReadWriteUtil");
 
 const storage = multer.diskStorage({
@@ -63,5 +64,13 @@ router.post("/fetchProfile", auth.required, (req, res) => {
         });
     })
     .catch((err) => res.send({ message: `Error while fecthing post ${JSON.stringify(err)}` }));
+});
+
+router.post("/addFollower", auth.optional, (req, res) => {
+  const { follower, following } = req.body;
+  const followDoc = new Follower();
+  followDoc.follower = follower;
+  followDoc.following = following;
+  followDoc.save().then(() => res.send({ message: "Data saved successfully" }));
 });
 module.exports = router;
