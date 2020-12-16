@@ -8,3 +8,4 @@ export const ClientID =
   "15089775636-b32piqktdtehsat7bpeish4bl4vjanvc.apps.googleusercontent.com";
 export const Client_Secret = "E3ojZ955lH1KFQT8zChwj86i";
 export const searchUserApi = "/api/search/getUser";
+export const fetchFolloerApi = "/api/profile/fetchFollowerCount"

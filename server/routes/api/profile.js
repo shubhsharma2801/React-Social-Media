@@ -49,7 +49,9 @@ router.post("/fetchProfile", auth.required, (req, res) => {
   dataReadWriteUtil
     .fetchPostByQuery(query)
     .then((posts) => {
-      const promiseArray = posts.map((post) => dataReadWriteUtil.fetchDocumentImagePromisified(post, "image"));
+      const promiseArray = posts.map((post) =>
+        dataReadWriteUtil.fetchDocumentImagePromisified(post, "image")
+      );
       return Promise.all(promiseArray);
     })
     .then((result) => {
@@ -65,7 +67,9 @@ router.post("/fetchProfile", auth.required, (req, res) => {
             });
         });
     })
-    .catch((err) => res.send({ message: `Error while fecthing post ${JSON.stringify(err)}` }));
+    .catch((err) =>
+      res.send({ message: `Error while fecthing post ${JSON.stringify(err)}` })
+    );
 });
 
 router.post("/addFollower", auth.optional, (req, res) => {
@@ -78,9 +82,21 @@ router.post("/addFollower", auth.optional, (req, res) => {
 });
 
 router.post("/fetchFollowerCount", auth.optional, (req, res) => {
-  const { userId } = req.body;
-  // console.log(followerGraph);
-  const context = followerGraph.findFollowerFollowing(userId);
+  const { author } = req.body;
+  const context = followerGraph.findFollowerFollowing(author);
+  console.log(context);
   res.send(context);
+});
+
+router.post("/fetchFollowerUsers", auth.optional, (req, res) => {
+  const { context } = req.body;
+  const resContext = {};
+  Users.find({ _id: { $in: context.follower } }).then((users) => {
+    resContext.follower = users;
+    Users.find({ _id: { $in: context.following } }).then((users) => {
+      resContext.following = users;
+      res.send(resContext);
+    });
+  });
 });
 module.exports = router;

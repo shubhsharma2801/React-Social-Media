@@ -8,7 +8,11 @@ import {
   getFromLocalStorage,
   isLoggedInUser,
 } from "../util/util";
-import { profilePicUploadApi, profileFetchApi } from "../util/Constant";
+import {
+  profilePicUploadApi,
+  profileFetchApi,
+  fetchFolloerApi,
+} from "../util/Constant";
 import { Tab } from "semantic-ui-react";
 import { withRouter } from "react-router";
 const getPostGrouping = (posts) => {
@@ -31,6 +35,7 @@ class Profile extends Component {
       fallbackPicture:
         "https://react.semantic-ui.com/images/wireframe/square-image.png",
       userId: "",
+      context: null,
     };
     this.panes = [
       {
@@ -105,6 +110,11 @@ class Profile extends Component {
         profile,
       });
     });
+    makeHttpPostCallout(fetchFolloerApi, body).then((context) => {
+      this.setState({
+        context,
+      });
+    });
   }
   async handleFileChange(e) {
     var file = e.target.files[0];
@@ -119,6 +129,9 @@ class Profile extends Component {
   }
   profileUpload() {
     this.inputElement.click();
+  }
+  followerClicked(){
+    
   }
   render() {
     return (
@@ -177,16 +190,31 @@ class Profile extends Component {
                   </Grid.Row>
                   <Grid.Row>
                     <Grid.Column>
-                      <span>
-                        <b>25</b> Posts
+                      <span onClick={this.followerClicked.bind(this)}>
+                        <b>
+                          {this.state.profile
+                            ? this.state.profile.posts.length
+                            : 0}
+                        </b>{" "}
+                        Posts
                       </span>
                       &nbsp; &nbsp; &nbsp;
                       <span>
-                        <b>165</b> Followers
+                        <b>
+                          {this.state.context
+                            ? this.state.context.follower.length
+                            : 0}
+                        </b>{" "}
+                        Followers
                       </span>
                       &nbsp; &nbsp; &nbsp;
                       <span>
-                        <b>165</b> Following
+                        <b>
+                          {this.state.context
+                            ? this.state.context.following.length
+                            : 0}
+                        </b>{" "}
+                        Following
                       </span>
                     </Grid.Column>
                   </Grid.Row>

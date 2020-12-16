@@ -35,6 +35,7 @@ class Graph {
     }
     console.log('0000000',this.nodes);
     for (const [key, value] of Object.entries(this.nodes)) {
+      console.log(typeof value[0]);
       if (value.includes(source)) {
         context.follower.push(key);
       }

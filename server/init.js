@@ -7,7 +7,7 @@ const createGraphOfAllUser = () => {
   const stream = Follower.find().stream();
   stream.on("data", (doc) => {
     stream.pause();
-    followerGraph.addEdge(doc.follower, doc.following);
+    followerGraph.addEdge(doc.follower.toString(), doc.following.toString());
     stream.resume();
   });
   stream.on("close", () => {

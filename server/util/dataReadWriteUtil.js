@@ -31,7 +31,6 @@ const fetchDocumentImagePromisified = (document, imageField) => new Promise((res
   } else {
     return resolve(document);
   }
-  return rejects();
 });
 
 module.exports = {
