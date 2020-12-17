@@ -12,9 +12,11 @@ import {
   profilePicUploadApi,
   profileFetchApi,
   fetchFolloerApi,
+  fetchFollowerData,
 } from "../util/Constant";
 import { Tab } from "semantic-ui-react";
 import { withRouter } from "react-router";
+import CustomModal from "./CustomModal";
 const getPostGrouping = (posts) => {
   var groupArr = [];
   for (let i = 0; i < posts.length; i += 3) {
@@ -36,6 +38,9 @@ class Profile extends Component {
         "https://react.semantic-ui.com/images/wireframe/square-image.png",
       userId: "",
       context: null,
+      follower: null,
+      following: null,
+      list: null,
     };
     this.panes = [
       {
@@ -130,12 +135,27 @@ class Profile extends Component {
   profileUpload() {
     this.inputElement.click();
   }
-  followerClicked(){
-    
+  followerClicked() {
+    console.log("Here");
+    if (!this.state.follower) {
+      var body = { context: this.state.context };
+      makeHttpPostCallout(fetchFollowerData, body).then((result) => {
+        const { follower, following } = result;
+        this.setState({
+          follower,
+          following,
+          list: follower,
+        });
+      });
+    } else {
+      this.setState({ list: this.state.follower });
+    }
   }
+
   render() {
     return (
       <div className="profile">
+        {this.state.list ? <CustomModal users={this.state.list} /> : ""}
         <Grid>
           <Grid.Row centered>
             <Grid.Column size={4} textAlign="center">
@@ -189,8 +209,8 @@ class Profile extends Component {
                     </Grid.Column>
                   </Grid.Row>
                   <Grid.Row>
-                    <Grid.Column>
-                      <span onClick={this.followerClicked.bind(this)}>
+                    <Grid.Column onClick={this.followerClicked.bind(this)}>
+                      <span>
                         <b>
                           {this.state.profile
                             ? this.state.profile.posts.length

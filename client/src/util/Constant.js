@@ -9,3 +9,4 @@ export const ClientID =
 export const Client_Secret = "E3ojZ955lH1KFQT8zChwj86i";
 export const searchUserApi = "/api/search/getUser";
 export const fetchFolloerApi = "/api/profile/fetchFollowerCount"
+export const fetchFollowerData= "/api/profile/fetchFollowerUsers";

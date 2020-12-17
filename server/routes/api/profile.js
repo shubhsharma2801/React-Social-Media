@@ -49,9 +49,7 @@ router.post("/fetchProfile", auth.required, (req, res) => {
   dataReadWriteUtil
     .fetchPostByQuery(query)
     .then((posts) => {
-      const promiseArray = posts.map((post) =>
-        dataReadWriteUtil.fetchDocumentImagePromisified(post, "image")
-      );
+      const promiseArray = posts.map((post) => dataReadWriteUtil.fetchDocumentImagePromisified(post, "image"));
       return Promise.all(promiseArray);
     })
     .then((result) => {
@@ -67,9 +65,7 @@ router.post("/fetchProfile", auth.required, (req, res) => {
             });
         });
     })
-    .catch((err) =>
-      res.send({ message: `Error while fecthing post ${JSON.stringify(err)}` })
-    );
+    .catch((err) => res.send({ message: `Error while fecthing post ${JSON.stringify(err)}` }));
 });
 
 router.post("/addFollower", auth.optional, (req, res) => {
